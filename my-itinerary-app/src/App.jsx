@@ -6,8 +6,8 @@ import DateFilter from "./components/DateFilter";
 import QuickFilters from "./components/QuickFilter";
 import ReactPaginate from "react-paginate";
 import Loading from "./components/Loading";
+import { useTheme } from "./components/ThemeContext";
 
-// Function to fetch itineraries
 const fetchItineraries = async () => {
   const response = await fetch(
     "https://staging.cordeliacruises.com/api/v2/itineraries?pagination=false"
@@ -20,6 +20,8 @@ const fetchItineraries = async () => {
 };
 
 function App() {
+  const { toggleTheme } = useTheme();
+
   const {
     data: itineraries = [],
     isLoading,
@@ -50,7 +52,6 @@ function App() {
     }
   }, [itineraries]);
 
-  // Function to apply filters based on user selection
   const applyFilters = (
     selectedDestinations = [],
     dateRange = { startDate: null, endDate: null },
@@ -59,15 +60,11 @@ function App() {
     selectedPort = ""
   ) => {
     let filtered = itineraries;
-
-    // Filter by selected destinations
     if (selectedDestinations.length > 0) {
       filtered = filtered.filter((itinerary) =>
         selectedDestinations.includes(itinerary.starting_port.name)
       );
     }
-
-    // Filter by date range
     if (dateRange.startDate && dateRange.endDate) {
       filtered = filtered.filter((itinerary) => {
         const itineraryStartDate = new Date(itinerary.start_date);
@@ -86,29 +83,22 @@ function App() {
         return itineraryStartDate >= selectedStartDate;
       });
     }
-
-    // Filter by nights
     if (nightRange) {
       filtered = filtered.filter(
         (itinerary) =>
           itinerary.nights >= nightRange[0] && itinerary.nights <= nightRange[1]
       );
     }
-
-    // Filter by trip type
     if (selectedTripType) {
       filtered = filtered.filter(
         (itinerary) => itinerary.trip_type === selectedTripType
       );
     }
-
-    // Filter by departure port
     if (selectedPort) {
       filtered = filtered.filter(
         (itinerary) => itinerary.starting_port.name === selectedPort
       );
     }
-
     setFilteredItineraries(filtered);
   };
 
@@ -134,12 +124,20 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600 text-center">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50 dark:bg-gray-900">
+      <h1 className="text-3xl font-bold mb-6 text-blue-600 dark:text-white-400 text-center">
         Cruise Itineraries
       </h1>
 
-      <div className="w-full max-w-7xl bg-white rounded-lg shadow-lg p-6 lg:px-10">
+      <div className="w-full max-w-7xl bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 lg:px-10">
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={toggleTheme}
+            className="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg"
+          >
+            Toggle Dark Mode
+          </button>
+        </div>
         <div className="space-y-4 lg:flex lg:space-y-0 lg:space-x-4 mb-6">
           <DestinationFilter
             destinations={destinations}
@@ -169,7 +167,7 @@ function App() {
               />
             ))
           ) : (
-            <p className="text-center col-span-full text-gray-500">
+            <p className="text-center col-span-full text-gray-500 dark:text-gray-300">
               No itineraries found.
             </p>
           )}
@@ -186,7 +184,7 @@ function App() {
             onPageChange={handlePageClick}
             containerClassName={"flex justify-center mt-4"}
             pageClassName={"mx-1"}
-            activeClassName={"font-bold text-blue-600"}
+            activeClassName={"font-bold text-blue-600 dark:text-blue-400"}
             previousClassName={"mx-2"}
             nextClassName={"mx-2"}
           />

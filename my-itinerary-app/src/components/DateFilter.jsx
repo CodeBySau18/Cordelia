@@ -19,15 +19,18 @@ const DateFilter = ({ onDateChange }) => {
 
   return (
     <form onSubmit={handleSubmit} className="mb-4">
-      <h2 className="text-xl font-bold mb-2">Filter by Date</h2>
+      <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white">
+        Filter by Date
+      </h2>
       <div className="flex items-center mb-2">
-        <label className="mr-2">
+        <label className="mr-2 text-gray-700 dark:text-gray-300">
           <input
             type="checkbox"
             checked={isRange}
             onChange={handleToggleRange}
+            className="mr-1"
           />
-          &nbsp; Select a date range
+          Select a date range
         </label>
       </div>
       <div className="flex">
@@ -37,14 +40,14 @@ const DateFilter = ({ onDateChange }) => {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="mr-2 border rounded p-1"
+              className="mr-2 border rounded p-1 bg-white dark:bg-gray-700 dark:text-white"
               required
             />
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="border rounded p-1"
+              className="border rounded p-1 bg-white dark:bg-gray-700 dark:text-white"
               required
             />
           </>
@@ -53,13 +56,13 @@ const DateFilter = ({ onDateChange }) => {
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="mr-2 border rounded p-1"
+            className="mr-2 border rounded p-1 bg-white dark:bg-gray-700 dark:text-white"
             required
           />
         )}
         <button
           type="submit"
-          className="ml-2 bg-blue-500 text-white rounded px-4 py-1"
+          className="ml-2 bg-blue-500 text-white rounded px-4 py-1 hover:bg-blue-600 dark:hover:bg-blue-400"
         >
           Apply
         </button>
