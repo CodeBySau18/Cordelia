@@ -134,7 +134,7 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen mt-10 ml-60 bg-gray-50">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-50">
       <h1 className="text-3xl font-bold mb-6 text-blue-600 text-center">
         Cruise Itineraries
       </h1>
